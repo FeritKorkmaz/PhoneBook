@@ -1,0 +1,76 @@
+@page "/deleteContact"
+@inject DeleteContact DeleteContactService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject AuthenticationHelper AuthenticationHelperService
+
+
+<PageTitle>Delete Contact</PageTitle>
+
+<AlertComponent Message="@alertMessage" ShowAlert="@showAlert" IsSuccess="@isSuccess" />
+
+<div class="container mt-5">
+    <h2 class="text-center">Kayıt Sil</h2>
+
+    <EditForm Model="@contact" OnValidSubmit="HandleValidSubmit">
+        <div class="form-group">
+            <label for="phoneNumber">Telefon Numarası</label>
+            <InputText id="phoneNumber" class="form-control" @bind-Value="contact.PhoneNumber"/>
+        </div>
+
+        <div style="width: 200px;" class="container-login100-form-btn mt-5">
+            <div class="wrap-login100-form-btn">
+                <div class="login100-form-bgbtn"></div>
+                <button type="submit" class="login100-form-btn">Kayıt Sil</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private Contact contact = new Contact();
+    private string? alertMessage;
+    private bool showAlert;
+    private bool isSuccess;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var userId = await AuthenticationHelperService.GetUserIdFromTokenAsync();
+            if (userId == null)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            contact.UserId = userId.Value;
+
+            if (string.IsNullOrEmpty(contact.PhoneNumber))
+            {
+                isSuccess = false;
+                alertMessage = "Telefon numarası boş olamaz.";
+                showAlert = true;
+                StateHasChanged();
+                return;
+            }
+
+            await DeleteContactService.DeleteContactAsync(contact.PhoneNumber, contact.UserId);
+
+            isSuccess = true;
+            alertMessage = "İletişim kişisi başarıyla silindi!";
+            showAlert = true;
+            StateHasChanged();
+
+            await Task.Delay(2000);  // 2 saniye bekle
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            isSuccess = false;
+            alertMessage = ex.Message;
+            showAlert = true;
+            StateHasChanged();
+        }
+    }
+}

@@ -1,13 +1,25 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.IdentityModel.Tokens;
-using PhoneBook.Data;
+using PhoneBook.Services.ContactServices;
+using PhoneBook.Services.TokenServices;
+using PhoneBook.Services.UserServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<RegisterUser>();
+builder.Services.AddScoped<GenerateTokenService>();
+builder.Services.AddScoped<LoginUser>();
+builder.Services.AddScoped<GetUserByUsernameAndPasswordService>();
+builder.Services.AddScoped<GetContactsByUserId>();
+builder.Services.AddScoped<CreateContact>();
+builder.Services.AddScoped<GetContactByPhoneNumber>();
+builder.Services.AddScoped<DeleteContact>();
+builder.Services.AddScoped<UpdateContact>();
+builder.Services.AddScoped<AuthenticationHelper>();
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
     opt.TokenValidationParameters = new TokenValidationParameters{
@@ -23,7 +35,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,99 @@
+@page "/login"
+@layout LoginLayout
+@inject NavigationManager Navigation
+@inject LoginUser LoginService
+@inject GenerateTokenService GenerateTokenService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Login</PageTitle>
+<AlertComponent Message="@alertMessage" ShowAlert="@showAlert" IsSuccess="@isSuccess" />
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+            <span class="login100-form-title p-b-49">
+                Login
+            </span>
+            <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <span class="label-input100">Kullanici Adi</span>
+                    <InputText class="input100" placeholder="Kullanici adinizi girin." @bind-Value="user.UserName"/>
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input">
+                    <span class="label-input100">Sifre</span>
+                    <InputText class="input100" type="password" placeholder="Sifrenizi girin." @bind-Value="user.Password"/>
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>  
+
+                <div class="container-login100-form-btn mt-5">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button type="submit" class="login100-form-btn">
+                            Login
+                        </button>
+                    </div>
+                </div>
+              
+                <div class="flex-col-c p-t-155">
+                    <a href="/register" class="txt2">
+                        Sign Up
+                    </a>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+<div id="dropDownSelect1"></div>
+
+@code {
+    private User user = new User();
+    private string? alertMessage;
+    private bool showAlert;
+    private bool isSuccess;
+
+     private async Task HandleValidSubmit()
+    {
+        if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Password))
+        {
+            isSuccess = false;
+            alertMessage = "Kullanici Adi ve Şifre Gerekli";
+            showAlert = true;
+            return;
+        }
+
+        try
+        {
+            var token = await LoginService.LoginUserAsync(user.UserName, user.Password);
+            if (token != null)
+            {
+                isSuccess = true;
+                alertMessage = "Giris Basarili!";
+                showAlert = true;
+                StateHasChanged();
+
+                // Token'ı local storage'da saklıyoruz
+                await JSRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", token);
+
+                await Task.Delay(2000);
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                isSuccess = false;
+                alertMessage = "Geçersiz kullanici adi veya sifre.";
+                showAlert = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            isSuccess = false;
+            alertMessage = ex.Message;
+            showAlert = true;
+        }
+    }
+}

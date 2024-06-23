@@ -7,9 +7,9 @@ namespace PhoneBook.Services.ContactServices
     public class GetContactsByUserId
     {
         private readonly string _connectionString;
-        public GetContactsByUserId(string connectionString)
+        public GetContactsByUserId(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<List<Contact>> GetContactsByUserIdAsync(int userId)

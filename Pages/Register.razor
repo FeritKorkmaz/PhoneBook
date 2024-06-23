@@ -1,0 +1,86 @@
+@page "/register"
+@inject RegisterUser RegisterUserService
+@inject NavigationManager Navigation
+@layout LoginLayout
+
+<PageTitle>Register</PageTitle>
+<AlertComponent Message="@alertMessage" ShowAlert="@showAlert" IsSuccess="@isSuccess" />
+
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+            <div class="card-heading">
+                <h2 class="title">Register</h2>
+            </div>
+            <div class="card-body">
+                <EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <div class="form-row m-b-55">
+                        <div class="name">Kullanici Adi</div>
+                        <div class="value">
+                            <div class="row row-refine">
+                                <div class="col-9">
+                                    <div class="input-group-desc">
+                                        <InputText class="input--style-5 form-control" @bind-Value="user.UserName"/>
+                                        <label class="label--desc">Kullanici Adi</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row m-b-55">
+                        <div class="name">Sifre</div>
+                        <div class="value">
+                            <div class="row row-refine">
+                                <div class="col-9">
+                                    <div class="input-group-desc">
+                                        <InputText class="input--style-5 form-control" @bind-Value="user.Password" type="password" />
+                                        <label class="label--desc">Sifre</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn--radius-2 btn--red btn-primary" type="submit">Register</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private User user = new User();
+    private string? alertMessage;
+    private bool showAlert;
+    private bool isSuccess;
+
+    private async Task HandleValidSubmit()
+    {
+        if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Password))
+        {
+            isSuccess = false;
+            alertMessage = "Kullanici Adi ve Şifre Gerekli";
+            showAlert = true;
+            return;
+        }
+        try
+        {
+            await RegisterUserService.RegisterUserAsync(user.UserName, user.Password);
+            isSuccess = true;
+            alertMessage = "Kayit Başarili";
+            showAlert = true;
+            StateHasChanged(); // UI'nın güncellenmesini sağlar
+            await Task.Delay(2000); // 2 saniye bekle
+            Navigation.NavigateTo("/login");
+        }
+        catch (InvalidOperationException ex)
+        {
+            isSuccess = false;
+            alertMessage = ex.Message;
+            showAlert = true;
+        }
+    }
+}

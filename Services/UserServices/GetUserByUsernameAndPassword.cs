@@ -7,9 +7,9 @@ namespace PhoneBook.Services.UserServices
     public class GetUserByUsernameAndPasswordService
     {
         private readonly string _connectionString;
-        public GetUserByUsernameAndPasswordService(string connectionString)
+        public GetUserByUsernameAndPasswordService(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("DefaultConnection"); // configuration'dan bağlantı dizesi alınır
         }
 
         public async Task<User> GetUserByUsernameAndPasswordAsync(string username, string password)
@@ -32,7 +32,7 @@ namespace PhoneBook.Services.UserServices
                 Password = reader.GetString(2)
             }, parameters);
             
-            return user.FirstOrDefault() ?? throw new InvalidOperationException("User not found");
+            return user.FirstOrDefault() ?? throw new InvalidOperationException("Geçersiz kullanici adi veya sifre.");
         }
         
     }

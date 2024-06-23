@@ -1,0 +1,120 @@
+@page "/updateContact"
+@inject UpdateContact UpdateContactService
+@inject GetContactByPhoneNumber GetContactByPhoneNumberService
+@inject AuthenticationHelper AuthenticationHelperService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+
+<PageTitle>Update Contact</PageTitle>
+
+<AlertComponent Message="@alertMessage" ShowAlert="@showAlert" IsSuccess="@isSuccess" />
+
+<div class="container mt-5">
+    <h2 class="text-center">Kayıt Güncelle</h2>
+
+    <EditForm Model="@phoneNumberModel" OnValidSubmit="FetchContact">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="phoneNumber">Telefon Numarası</label>
+            <InputText id="phoneNumber" class="form-control" @bind-Value="phoneNumberModel.PhoneNumber" />
+            <small class="form-text text-muted">Güncellemek istediğiniz kişinin telefon numarasını girin.</small>
+        </div>
+
+        <div style="width: 200px;" class="container-login100-form-btn mt-5">
+            <div class="wrap-login100-form-btn">
+                <div class="login100-form-bgbtn"></div>
+                <button type="submit" class="login100-form-btn">Kişi Getir</button>
+            </div>
+        </div>
+    </EditForm>
+
+    @if (contact != null)
+    {
+        <EditForm Model="@contact" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group mt-5">
+                <label for="firstName">İsim</label>
+                <InputText id="firstName" class="form-control" @bind-Value="contact.FirstName" />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Soyisim</label>
+                <InputText id="lastName" class="form-control" @bind-Value="contact.LastName" />
+            </div>
+
+            <div style="width: 200px;" class="container-login100-form-btn mt-5">
+                <div class="wrap-login100-form-btn">
+                    <div class="login100-form-bgbtn"></div>
+                    <button type="submit" class="login100-form-btn">Kişi Güncelle</button>
+                </div>
+            </div>  
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Contact? contact;
+    private string? alertMessage;
+    private bool showAlert;
+    private bool isSuccess;
+
+    // Phone number model for fetching contact
+    private PhoneNumberModel phoneNumberModel = new PhoneNumberModel();
+
+      private async Task FetchContact()
+    {
+        var userId = await AuthenticationHelperService.GetUserIdFromTokenAsync();
+        if (userId == null)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        phoneNumberModel.UserId = userId.Value;
+
+        if (!string.IsNullOrEmpty(phoneNumberModel.PhoneNumber))
+        {
+            contact = await GetContactByPhoneNumberService.GetContactByPhoneNumberAsync(phoneNumberModel.PhoneNumber, phoneNumberModel.UserId);
+        }
+
+        if (contact == null)
+        {
+            isSuccess = false;
+            alertMessage = "Bu numara ile kayıtlı kişi bulunamadı.";
+            showAlert = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var userId = await AuthenticationHelperService.GetUserIdFromTokenAsync();
+        if (userId == null || contact == null)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        contact.UserId = userId.Value;
+        await UpdateContactService.UpdateContactAsync(contact);
+
+        isSuccess = true;
+        alertMessage = "İletişim kişisi başarıyla güncellendi!";
+        showAlert = true;
+        StateHasChanged();
+
+        await Task.Delay(2000);
+        Navigation.NavigateTo("/");
+    }
+
+    public class PhoneNumberModel
+    {
+        [Required]
+        public string? PhoneNumber { get; set; }
+        public int UserId { get; set; }
+    }
+}

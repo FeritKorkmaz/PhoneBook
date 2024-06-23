@@ -9,9 +9,9 @@ namespace PhoneBook.Services.ContactServices
         private readonly string _connectionString;
         private readonly GetContactByPhoneNumber _getContactByPhoneNumber;
 
-        public UpdateContact(string connectionString, GetContactByPhoneNumber getContactByPhoneNumber)
+        public UpdateContact(IConfiguration configuration, GetContactByPhoneNumber getContactByPhoneNumber)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
             _getContactByPhoneNumber = getContactByPhoneNumber;
         }
 
@@ -21,17 +21,18 @@ namespace PhoneBook.Services.ContactServices
             {
                 throw new ArgumentNullException(nameof(contact), "İletisim kisisi bos olamaz");;
             }
-            var exitingContact = await _getContactByPhoneNumber.GetContactByPhoneNumberAsync(contact.PhoneNumber);
+            var exitingContact = await _getContactByPhoneNumber.GetContactByPhoneNumberAsync(contact.PhoneNumber, contact.UserId);
             if (exitingContact == null)
             {
                 throw new InvalidOperationException ("Bu numara bulunamadi. Lütfen geçerli bir numara giriniz.");
             }
-            string commandText = "UPDATE Contacts SET FirstName = @FirstName, LastName = @LastName WHERE PhoneNumber =  @PhoneNumber";
+            string commandText = "UPDATE Contacts SET FirstName = @FirstName, LastName = @LastName WHERE PhoneNumber = @PhoneNumber AND UserId = @UserId";
             var parameters = new[] 
             {
                 new SqlParameter("@FirstName", contact.FirstName),
                 new SqlParameter("@LastName", contact.LastName),
-                new SqlParameter("@PhoneNumber", contact.PhoneNumber)
+                new SqlParameter("@PhoneNumber", contact.PhoneNumber),
+                new SqlParameter("@UserId", contact.UserId)
             };
             await DatabaseHelper.ExecuteNonQueryAsync(_connectionString, commandText, parameters);
         }

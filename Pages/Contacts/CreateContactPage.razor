@@ -1,0 +1,76 @@
+@page "/createContact"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject CreateContact CreateContactService
+@inject AuthenticationHelper AuthenticationHelperService
+
+<PageTitle>Kişi Oluştur</PageTitle>
+
+<AlertComponent Message="@alertMessage" ShowAlert="@showAlert" IsSuccess="@isSuccess" />
+
+<div class="container mt-5">
+    <h2 class="text-center">Yeni Kişi Oluştur</h2>
+
+    <EditForm Model="@newContact" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="firstName">İsim</label>
+            <InputText id="firstName" class="form-control" @bind-Value="newContact.FirstName" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Soyisim</label>
+            <InputText id="lastName" class="form-control" @bind-Value="newContact.LastName" />
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Telefon Numarası</label>
+            <InputText id="phoneNumber" class="form-control" @bind-Value="newContact.PhoneNumber" />
+        </div>
+
+        <div style="width: 200px;" class="container-login100-form-btn mt-5">
+            <div class="wrap-login100-form-btn">
+                <div class="login100-form-bgbtn"></div>
+                <button type="submit" class="login100-form-btn">Kişi Ekle</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private Contact newContact = new Contact();
+    private string? alertMessage;
+    private bool showAlert;
+    private bool isSuccess;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var userId = await AuthenticationHelperService.GetUserIdFromTokenAsync();
+            if (userId == null)
+            {
+                Navigation.NavigateTo("/login");
+                return;
+            }
+
+            newContact.UserId = userId.Value;
+
+            await CreateContactService.CreateContactAsync(newContact);
+            
+            isSuccess = true;
+            alertMessage = "İletişim kişisi başarıyla oluşturuldu!";
+            showAlert = true;
+            StateHasChanged();
+
+            await Task.Delay(2000);
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            isSuccess = false;
+            alertMessage = ex.Message;
+            showAlert = true;
+        }
+    }
+}

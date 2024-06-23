@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj": {}
+    "C:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj": {}
   },
   "projects": {
-    "c:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj": {
+    "C:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj",
+        "projectUniqueName": "C:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj",
         "projectName": "PhoneBook",
-        "projectPath": "c:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj",
+        "projectPath": "C:\\Users\\ferit\\Desktop\\PhoneBook\\PhoneBook.csproj",
         "packagesPath": "C:\\Users\\ferit\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\ferit\\Desktop\\PhoneBook\\obj\\",
+        "outputPath": "C:\\Users\\ferit\\Desktop\\PhoneBook\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ferit\\AppData\\Roaming\\NuGet\\NuGet.Config"

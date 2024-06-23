@@ -8,53 +8,69 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PhoneBook
 build_property.RootNamespace = PhoneBook
-build_property.ProjectDir = c:\Users\ferit\Desktop\PhoneBook\
+build_property.ProjectDir = C:\Users\ferit\Desktop\PhoneBook\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\ferit\Desktop\PhoneBook
+build_property.MSBuildProjectDirectory = C:\Users\ferit\Desktop\PhoneBook
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Users/ferit/Desktop/PhoneBook/App.razor]
+[C:/Users/ferit/Desktop/PhoneBook/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[C:/Users/ferit/Desktop/PhoneBook/Pages/AlertComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWxlcnRDb21wb25lbnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+[C:/Users/ferit/Desktop/PhoneBook/Pages/Contacts/CreateContactPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdHNcQ3JlYXRlQ29udGFjdFBhZ2UucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/Pages/Index.razor]
+[C:/Users/ferit/Desktop/PhoneBook/Pages/Contacts/DeleteContactPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdHNcRGVsZXRlQ29udGFjdFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ferit/Desktop/PhoneBook/Pages/Contacts/UpdateContactPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdHNcVXBkYXRlQ29udGFjdFBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ferit/Desktop/PhoneBook/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/Shared/SurveyPrompt.razor]
+[C:/Users/ferit/Desktop/PhoneBook/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ferit/Desktop/PhoneBook/Pages/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ferit/Desktop/PhoneBook/Shared/LoginLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ferit/Desktop/PhoneBook/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/_Imports.razor]
+[C:/Users/ferit/Desktop/PhoneBook/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/Shared/MainLayout.razor]
+[C:/Users/ferit/Desktop/PhoneBook/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-gdm6dd0cfx
 
-[c:/Users/ferit/Desktop/PhoneBook/Shared/NavMenu.razor]
+[C:/Users/ferit/Desktop/PhoneBook/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-axrsoiwpfr
 
-[c:/Users/ferit/Desktop/PhoneBook/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[c:/Users/ferit/Desktop/PhoneBook/Pages/_Host.cshtml]
+[C:/Users/ferit/Desktop/PhoneBook/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/ferit/Desktop/PhoneBook/Pages/_Layout.cshtml]
+[C:/Users/ferit/Desktop/PhoneBook/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

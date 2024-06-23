@@ -1,19 +1,63 @@
-﻿@inherits LayoutComponentBase
+﻿@using PhoneBook.Pages
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
 <PageTitle>PhoneBook</PageTitle>
-
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+     
+@if (isLoading)
+{
+   <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+}
+else
+{
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        <main>
+            <div class="top-row px-4">
+                <a href="/login" @onclick="Logout">Logout</a>
+            </div>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+}
+
+@code {
+    private bool isLoading = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CheckToken();
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task CheckToken()
+    {
+        var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+        if (string.IsNullOrEmpty(token))
+        {
+            await Logout();
+        }
+    }
+
+    private async Task Logout()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "authToken");
+        Navigation.NavigateTo("/login");
+    }
+}
